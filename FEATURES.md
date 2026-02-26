@@ -297,9 +297,9 @@ Add the following to your `appsettings.json`:
 │  │  publishes page  │                       │            │
 │  └─────────────────┘                       ▼            │
 │                              ┌──────────────────────┐    │
-│                              │ ContentPublishPercy   │    │
+│                              │ ContentPublishPercy-  │    │
 │                              │ Handler               │    │
-│                              │ (Initializable Module)│    │
+│                              │ (Initializable Module) │    │
 │                              └──────────┬───────────┘    │
 │                                         │                │
 │                                         ▼                │
@@ -367,13 +367,15 @@ Add the following to your `appsettings.json`:
 
 ### Reviewing Builds via the API
 
+The CMS REST API endpoints (`/api/percy`) are protected by the `episerver:cmseditor` authorization policy, so you must authenticate using your CMS credentials (e.g., a cookie-based session or the authentication mechanism configured in your Optimizely site):
+
 ```bash
-# Get recent builds
-curl -H "Authorization: Token YOUR_PERCY_TOKEN" \
+# Get recent builds (authenticate with your CMS session)
+curl -b YOUR_CMS_AUTH_COOKIE \
      https://your-site.com/api/percy/builds?count=5
 
 # Get diff URL for a specific build
-curl -H "Authorization: Token YOUR_PERCY_TOKEN" \
+curl -b YOUR_CMS_AUTH_COOKIE \
      https://your-site.com/api/percy/builds/BUILD_ID/diff
 ```
 
