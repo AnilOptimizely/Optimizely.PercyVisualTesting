@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Optimizely.Percy/Optimizely.Percy.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Optimizely.Percy.Tests/Optimizely.Percy.Tests.csproj" />
+  </Folder>
+</Solution>
