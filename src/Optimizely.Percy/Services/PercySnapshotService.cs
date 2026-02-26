@@ -19,7 +19,7 @@ public class PercySnapshotService : IPercySnapshotService
     private readonly IPercyApiClient _apiClient;
     private readonly ILogger<PercySnapshotService> _logger;
 
-    private static readonly TimeSpan CliTimeout = TimeSpan.FromMinutes(5);
+    private static readonly TimeSpan DefaultCliTimeout = TimeSpan.FromMinutes(5);
 
     public PercySnapshotService(
         IOptions<PercyOptions> options,
@@ -166,12 +166,12 @@ public class PercySnapshotService : IPercySnapshotService
 
         var completedInTime = await Task.WhenAny(
             process.WaitForExitAsync(),
-            Task.Delay(CliTimeout));
+            Task.Delay(DefaultCliTimeout));
 
         if (!process.HasExited)
         {
             process.Kill(entireProcessTree: true);
-            return (-1, "", "Percy CLI timed out after 5 minutes.");
+            return (-1, "", $"Percy CLI timed out after {DefaultCliTimeout.TotalMinutes} minutes.");
         }
 
         var stdout = await stdoutTask;

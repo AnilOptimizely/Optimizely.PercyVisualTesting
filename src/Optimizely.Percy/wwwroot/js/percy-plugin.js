@@ -4,7 +4,7 @@
 
   const BUILDS_API = '/api/percy/builds';
   const TRIGGER_API = '/percy-admin/trigger';
-  const POLL_INTERVAL_MS = 30_000;
+  const POLL_INTERVAL_MS = 30 * 1000;
 
   let pollTimer = null;
 
