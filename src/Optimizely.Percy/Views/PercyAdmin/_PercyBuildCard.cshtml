@@ -1,0 +1,45 @@
+@model Optimizely.Percy.Models.PercyBuildSummary
+@{
+    var stateClass = Model.State switch
+    {
+        "finished" => "percy-badge--success",
+        "failed"   => "percy-badge--danger",
+        "pending"  => "percy-badge--warning",
+        _          => "percy-badge--neutral"
+    };
+    var stateLabel = Model.State switch
+    {
+        "finished" => "Finished",
+        "failed"   => "Failed",
+        "pending"  => "Pending",
+        "processing" => "Processing",
+        _ => Model.State
+    };
+    var hasUnreviewed = Model.UnreviewedComparisons > 0;
+}
+<div class="percy-build-card">
+    <div class="percy-build-card__row">
+        <span class="percy-badge @stateClass">@stateLabel</span>
+        @if (hasUnreviewed)
+        {
+            <span class="percy-badge percy-badge--warning percy-badge--sm">@Model.UnreviewedComparisons unreviewed</span>
+        }
+        <span class="percy-build-card__date" title="@Model.CreatedAt.ToString("o")">
+            @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm UTC")
+        </span>
+    </div>
+    <div class="percy-build-card__meta">
+        <span>📸 @Model.TotalSnapshots snapshots</span>
+        <span>🔍 @Model.TotalComparisons comparisons</span>
+        @if (!string.IsNullOrEmpty(Model.TriggerLabel))
+        {
+            <span>🏷️ @Model.TriggerLabel</span>
+        }
+    </div>
+    @if (!string.IsNullOrEmpty(Model.BuildUrl))
+    {
+        <a href="@Model.BuildUrl" class="percy-build-card__link" target="_blank" rel="noopener noreferrer">
+            View build on Percy →
+        </a>
+    }
+</div>

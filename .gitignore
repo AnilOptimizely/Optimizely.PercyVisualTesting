@@ -2,3 +2,12 @@
 ## EPiServer Files
 ######################
 *License.config
+
+######################
+## .NET Build Artifacts
+######################
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+.vs/

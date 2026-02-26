@@ -1,0 +1,236 @@
+/* percy-plugin.css — Percy Visual Testing UI for Optimizely CMS */
+
+:root {
+  --percy-purple: #662D91;
+  --percy-purple-light: #8B4DB7;
+  --percy-purple-dark: #4A1F68;
+  --percy-success: #2E7D32;
+  --percy-success-bg: #E8F5E9;
+  --percy-warning: #E65100;
+  --percy-warning-bg: #FFF3E0;
+  --percy-danger: #C62828;
+  --percy-danger-bg: #FFEBEE;
+  --percy-neutral: #455A64;
+  --percy-neutral-bg: #ECEFF1;
+  --percy-bg: #F5F5F5;
+  --percy-card-bg: #FFFFFF;
+  --percy-border: #E0E0E0;
+  --percy-text: #212121;
+  --percy-text-muted: #757575;
+  --percy-radius: 8px;
+  --percy-shadow: 0 2px 8px rgba(0,0,0,.1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--percy-bg);
+  color: var(--percy-text);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ── Header ────────────────────────────────────────────── */
+.percy-header {
+  background: var(--percy-purple);
+  color: #fff;
+  padding: 0 24px;
+}
+.percy-header__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.percy-header__logo {
+  font-size: 18px;
+  font-weight: 700;
+}
+.percy-header__subtitle {
+  font-size: 12px;
+  opacity: .75;
+}
+
+/* ── Alert ─────────────────────────────────────────────── */
+.percy-alert {
+  margin: 16px 24px;
+  padding: 12px 16px;
+  border-radius: var(--percy-radius);
+  border-left: 4px solid currentColor;
+}
+.percy-alert--danger { background: var(--percy-danger-bg); color: var(--percy-danger); }
+.percy-alert__list { margin: 6px 0 0 16px; padding: 0; }
+
+/* ── Stats bar ─────────────────────────────────────────── */
+.percy-stats {
+  display: flex;
+  gap: 2px;
+  background: var(--percy-border);
+  border-bottom: 1px solid var(--percy-border);
+}
+.percy-stat {
+  flex: 1;
+  background: var(--percy-card-bg);
+  padding: 12px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.percy-stat__label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--percy-text-muted);
+}
+.percy-stat__value { font-weight: 600; font-size: 15px; }
+.percy-stat__value--success { color: var(--percy-success); }
+.percy-stat__value--warning { color: var(--percy-warning); }
+.percy-stat__value--danger { color: var(--percy-danger); }
+
+/* ── Content grid ──────────────────────────────────────── */
+.percy-content {
+  max-width: 1200px;
+  margin: 24px auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.percy-card--config { grid-column: 1 / -1; }
+
+/* ── Card ───────────────────────────────────────────────── */
+.percy-card {
+  background: var(--percy-card-bg);
+  border-radius: var(--percy-radius);
+  box-shadow: var(--percy-shadow);
+  padding: 20px 24px;
+}
+.percy-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.percy-card__title {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--percy-purple-dark);
+}
+.percy-card__header .percy-card__title { margin-bottom: 0; }
+.percy-card__desc { margin: 0 0 16px; color: var(--percy-text-muted); }
+
+/* ── Form ───────────────────────────────────────────────── */
+.percy-form { display: flex; flex-direction: column; gap: 10px; }
+.percy-form__label { font-weight: 600; font-size: 12px; color: var(--percy-text-muted); }
+.percy-form__textarea,
+.percy-form__input {
+  border: 1px solid var(--percy-border);
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-size: 13px;
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color .15s;
+}
+.percy-form__textarea:focus,
+.percy-form__input:focus {
+  outline: none;
+  border-color: var(--percy-purple-light);
+  box-shadow: 0 0 0 3px rgba(102,45,145,.15);
+}
+
+/* ── Buttons ─────────────────────────────────────────────── */
+.percy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background .15s, transform .1s;
+}
+.percy-btn:active { transform: scale(.97); }
+.percy-btn--primary { background: var(--percy-purple); color: #fff; }
+.percy-btn--primary:hover { background: var(--percy-purple-light); }
+.percy-btn--secondary { background: var(--percy-neutral-bg); color: var(--percy-text); }
+.percy-btn--secondary:hover { background: #CFD8DC; }
+.percy-btn--sm { padding: 5px 12px; font-size: 12px; }
+
+/* ── Trigger result ─────────────────────────────────────── */
+.percy-trigger-result {
+  padding: 10px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.percy-trigger-result--success { background: var(--percy-success-bg); color: var(--percy-success); }
+.percy-trigger-result--error   { background: var(--percy-danger-bg);  color: var(--percy-danger);  }
+
+/* ── Build card ─────────────────────────────────────────── */
+.percy-build-card {
+  border: 1px solid var(--percy-border);
+  border-radius: 6px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--percy-bg);
+}
+.percy-build-card:last-child { margin-bottom: 0; }
+.percy-build-card__row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.percy-build-card__date { margin-left: auto; font-size: 11px; color: var(--percy-text-muted); }
+.percy-build-card__meta { display: flex; gap: 16px; font-size: 12px; color: var(--percy-text-muted); }
+.percy-build-card__link {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--percy-purple);
+  text-decoration: none;
+}
+.percy-build-card__link:hover { text-decoration: underline; }
+
+/* ── Badges ─────────────────────────────────────────────── */
+.percy-badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.percy-badge--success { background: var(--percy-success-bg); color: var(--percy-success); }
+.percy-badge--warning { background: var(--percy-warning-bg); color: var(--percy-warning); }
+.percy-badge--danger  { background: var(--percy-danger-bg);  color: var(--percy-danger);  }
+.percy-badge--neutral { background: var(--percy-neutral-bg); color: var(--percy-neutral); }
+.percy-badge--sm { font-size: 10px; padding: 1px 7px; }
+
+/* ── Empty state ────────────────────────────────────────── */
+.percy-empty { color: var(--percy-text-muted); font-style: italic; margin: 0; }
+
+/* ── Config block ───────────────────────────────────────── */
+.percy-config-block {
+  background: var(--percy-bg);
+  border: 1px solid var(--percy-border);
+  border-radius: 4px;
+  padding: 14px;
+  font-size: 12px;
+  line-height: 1.6;
+  overflow: auto;
+  margin: 0;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 720px) {
+  .percy-content { grid-template-columns: 1fr; }
+  .percy-card--config { grid-column: 1; }
+  .percy-stats { flex-direction: column; }
+}

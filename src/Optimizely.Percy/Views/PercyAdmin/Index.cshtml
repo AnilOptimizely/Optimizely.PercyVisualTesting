@@ -1,0 +1,123 @@
+@model Optimizely.Percy.Models.PercyDashboardViewModel
+@{
+    ViewBag.Title = "Percy Visual Testing";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Percy Visual Testing — Optimizely</title>
+    <link rel="stylesheet" href="~/percy-plugin/css/percy-plugin.css" />
+</head>
+<body>
+<div class="percy-app">
+    <!-- Header -->
+    <header class="percy-header">
+        <div class="percy-header__inner">
+            <span class="percy-header__logo">🟣 Percy Visual Testing</span>
+            <span class="percy-header__subtitle">Optimizely CMS Integration</span>
+        </div>
+    </header>
+
+    <!-- Config validation errors -->
+    @if (Model.ValidationErrors.Count > 0)
+    {
+        <div class="percy-alert percy-alert--danger" role="alert">
+            <strong>Configuration Errors:</strong>
+            <ul class="percy-alert__list">
+                @foreach (var err in Model.ValidationErrors)
+                {
+                    <li>@err</li>
+                }
+            </ul>
+        </div>
+    }
+
+    <!-- Stats bar -->
+    <section class="percy-stats">
+        <div class="percy-stat">
+            <span class="percy-stat__label">Status</span>
+            <span class="percy-stat__value @(Model.IsConfigured ? "percy-stat__value--success" : "percy-stat__value--danger")">
+                @(Model.IsConfigured ? "Configured" : "Not configured")
+            </span>
+        </div>
+        <div class="percy-stat">
+            <span class="percy-stat__label">Project</span>
+            <span class="percy-stat__value">@(string.IsNullOrEmpty(Model.Options.ProjectSlug) ? "—" : Model.Options.ProjectSlug)</span>
+        </div>
+        <div class="percy-stat">
+            <span class="percy-stat__label">Auto-snapshot on publish</span>
+            <span class="percy-stat__value @(Model.Options.TriggerOnPublish ? "percy-stat__value--success" : "percy-stat__value--warning")">
+                @(Model.Options.TriggerOnPublish ? "Enabled" : "Disabled")
+            </span>
+        </div>
+        <div class="percy-stat">
+            <span class="percy-stat__label">Recent builds</span>
+            <span class="percy-stat__value">@Model.RecentBuilds.Count</span>
+        </div>
+    </section>
+
+    <div class="percy-content">
+        <!-- Manual trigger section -->
+        <section class="percy-card" id="percy-trigger-section">
+            <h2 class="percy-card__title">Trigger Snapshot</h2>
+            <p class="percy-card__desc">Enter one or more relative URLs (one per line) to capture Percy snapshots.</p>
+            <div class="percy-form">
+                <label class="percy-form__label" for="percy-urls">URLs (one per line)</label>
+                <textarea id="percy-urls" class="percy-form__textarea" rows="4" placeholder="/en/home&#10;/en/about"></textarea>
+                <label class="percy-form__label" for="percy-label">Build label (optional)</label>
+                <input id="percy-label" type="text" class="percy-form__input" placeholder="e.g. manual-review-2024" />
+                <button id="percy-trigger-btn" class="percy-btn percy-btn--primary" type="button">Trigger Snapshot</button>
+                <div id="percy-trigger-result" class="percy-trigger-result" hidden></div>
+            </div>
+        </section>
+
+        <!-- Recent builds section -->
+        <section class="percy-card" id="percy-builds-section">
+            <div class="percy-card__header">
+                <h2 class="percy-card__title">Recent Builds</h2>
+                <button id="percy-refresh-btn" class="percy-btn percy-btn--secondary percy-btn--sm" type="button">↻ Refresh</button>
+            </div>
+            <div id="percy-builds-list">
+                @if (!Model.IsConfigured)
+                {
+                    <p class="percy-empty">Configure a Percy token to see builds.</p>
+                }
+                else if (Model.RecentBuilds.Count == 0)
+                {
+                    <p class="percy-empty">No recent builds found.</p>
+                }
+                else
+                {
+                    foreach (var build in Model.RecentBuilds)
+                    {
+                        @await Html.PartialAsync("_PercyBuildCard", build)
+                    }
+                }
+            </div>
+        </section>
+
+        <!-- Config panel -->
+        <section class="percy-card percy-card--config">
+            <h2 class="percy-card__title">Configuration Reference</h2>
+            <pre class="percy-config-block">{
+  "Optimizely": {
+    "Percy": {
+      "Token": "YOUR_PERCY_TOKEN",
+      "BaseUrl": "https://your-cms-site.com",
+      "ProjectSlug": "org/project",
+      "TriggerOnPublish": true,
+      "SnapshotWidths": [375, 768, 1280],
+      "MinHeight": 1024,
+      "EnableDashboard": true
+    }
+  }
+}</pre>
+        </section>
+    </div>
+</div>
+<script src="~/percy-plugin/js/percy-plugin.js"></script>
+</body>
+</html>
